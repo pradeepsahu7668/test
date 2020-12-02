@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    </script>
+</head>
+
+<body>
+
+    <p id="ip">IP:
+
+    </p>
+
+    <input type="hidden" id="myip">
+    <h1 id="hashing"></h1>
+
+    <script>
+        var ip = null;
+        //IP Adress
+        $.getJSON("https://api.ipify.org?format=json",
+            function (data) {
+                ip = data.ip;
+                $("#ip").html(data.ip);
+                // var getip = (JSON.stringify(ip));
+            })
+
+        const my_ip = fetch('https://api.ipify.org?format=json');
+        console.log(my_ip);
+
+
+        // Platform 
+        var userAgent = window.navigator.userAgent,
+            platform = window.navigator.platform,
+            macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+            windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+            iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+            os = null;
+
+        if (macosPlatforms.indexOf(platform) !== -1) {
+            os = 'Mac OS';
+        } else if (iosPlatforms.indexOf(platform) !== -1) {
+            os = 'iOS';
+        } else if (windowsPlatforms.indexOf(platform) !== -1) {
+            os = 'Windows';
+        } else if (/Android/.test(userAgent)) {
+            os = 'Android';
+        } else if (!os && /Linux/.test(platform)) {
+            os = 'Linux';
+        }
+
+        var operating = os.toString();
+
+        // time zone
+        var dt = new Date();
+        var timestamp = dt.getTime();
+        const getdate = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        var timezone = getdate.toString();
+        // console.log(getdate);
+
+        //Screen Resolution
+        var screen = (screen.width + " " + "X" + " " + screen.height);
+        var screenRes = screen.toString();
+
+        // os version 
+
+        (function (window) {
+            {
+                var unknown = '-';
+
+
+                // browser
+                var nVer = navigator.appVersion;
+                var nAgt = navigator.userAgent;
+                var browser = navigator.appName;
+                var version = '' + parseFloat(navigator.appVersion);
+                var majorVersion = parseInt(navigator.appVersion, 10);
+                var nameOffset, verOffset, ix;
+
+                // Opera
+                if ((verOffset = nAgt.indexOf('Opera')) != -1) {
+                    browser = 'Opera';
+                    version = nAgt.substring(verOffset + 6);
+                    if ((verOffset = nAgt.indexOf('Version')) != -1) {
+                        version = nAgt.substring(verOffset + 8);
+                    }
+                }
+
+
+
+                // trim the version string
+                if ((ix = version.indexOf(';')) != -1) version = version.substring(0, ix);
+                if ((ix = version.indexOf(' ')) != -1) version = version.substring(0, ix);
+                if ((ix = version.indexOf(')')) != -1) version = version.substring(0, ix);
+
+                majorVersion = parseInt('' + version, 10);
+                if (isNaN(majorVersion)) {
+                    version = '' + parseFloat(navigator.appVersion);
+                    majorVersion = parseInt(navigator.appVersion, 10);
+                }
+
+                // mobile version
+                var mobile = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(nVer);
+
+                // cookie
+
+
+                // system
+                var os = unknown;
+                var clientStrings = [
+                    { s: 'Windows 10', r: /(Windows 10.0|Windows NT 10.0)/ },
+                    { s: 'Windows 8.1', r: /(Windows 8.1|Windows NT 6.3)/ },
+                    { s: 'Windows 8', r: /(Windows 8|Windows NT 6.2)/ },
+                    { s: 'Windows 7', r: /(Windows 7|Windows NT 6.1)/ },
+                    { s: 'Windows Vista', r: /Windows NT 6.0/ },
+                    { s: 'Windows Server 2003', r: /Windows NT 5.2/ },
+                    { s: 'Windows XP', r: /(Windows NT 5.1|Windows XP)/ },
+                    { s: 'Windows 2000', r: /(Windows NT 5.0|Windows 2000)/ },
+                    { s: 'Windows ME', r: /(Win 9x 4.90|Windows ME)/ },
+                    { s: 'Windows 98', r: /(Windows 98|Win98)/ },
+                    { s: 'Windows 95', r: /(Windows 95|Win95|Windows_95)/ },
+                    { s: 'Windows NT 4.0', r: /(Windows NT 4.0|WinNT4.0|WinNT|Windows NT)/ },
+                    { s: 'Windows CE', r: /Windows CE/ },
+                    { s: 'Windows 3.11', r: /Win16/ },
+                    { s: 'Android', r: /Android/ },
+                    { s: 'Open BSD', r: /OpenBSD/ },
+                    { s: 'Sun OS', r: /SunOS/ },
+                    { s: 'Chrome OS', r: /CrOS/ },
+                    { s: 'Linux', r: /(Linux|X11(?!.*CrOS))/ },
+                    { s: 'iOS', r: /(iPhone|iPad|iPod)/ },
+                    { s: 'Mac OS X', r: /Mac OS X/ },
+                    { s: 'Mac OS', r: /(Mac OS|MacPPC|MacIntel|Mac_PowerPC|Macintosh)/ },
+                    { s: 'QNX', r: /QNX/ },
+                    { s: 'UNIX', r: /UNIX/ },
+                    { s: 'BeOS', r: /BeOS/ },
+                    { s: 'OS/2', r: /OS\/2/ },
+                    { s: 'Search Bot', r: /(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/ }
+                ];
+                for (var id in clientStrings) {
+                    var cs = clientStrings[id];
+                    if (cs.r.test(nAgt)) {
+                        os = cs.s;
+                        break;
+                    }
+                }
+
+                var osVersion = unknown;
+
+                if (/Windows/.test(os)) {
+                    osVersion = /Windows (.*)/.exec(os)[1];
+                    os = 'Windows';
+                }
+
+                switch (os) {
+                    case 'Mac OS':
+                    case 'Mac OS X':
+                    case 'Android':
+                        osVersion = /(?:Android|Mac OS|Mac OS X|MacPPC|MacIntel|Mac_PowerPC|Macintosh) ([\.\_\d]+)/.exec(nAgt)[1];
+                        break;
+
+                    case 'iOS':
+                        osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(nVer);
+                        osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
+                        break;
+                }
+
+
+            }
+
+            window.jscd = {
+                osVersion: osVersion
+            };
+        }(this));
+
+        var osVersion = (
+            jscd.osVersion
+        );
+        var getosversion = osVersion.toString();
+
+        // console.log(getosversion);
+
+
+
+        // String printing in hash 
+
+        var getHash = operating.concat(getosversion + " " + timezone + " " + screenRes + " " );
+        console.log(getHash);
+
+        var postHash = getHash;
+        // console.log(postHash)
+
+
+    </script>
+
+</body>
+
+</html>
